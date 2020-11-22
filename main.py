@@ -1,1 +1,2 @@
-Authors: Nick Grisanti, Eric Corona
+# Authors: Nick Grisanti, Eric Corona
+
