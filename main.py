@@ -10,11 +10,16 @@ dydz = lambda z, y: z**3 - y**2 -y*z
 def plotSlopeField(expression, xmin, xmax, ymin, ymax):
     xAxis = [range(xmin, xmax + 1)]
     yAxis = [range(ymin, ymax + 1)]
+    xScale = abs(xmin) + abs(xmax)
+    yScale = abs(ymin) + abs(ymax)
+
+    plt.rcParams["figure.facecolor"] = "yellow"
+    plt.rcParams["figure.figsize"] = [(xScale * 8) / yScale ,8]
     graph = plt.subplots()
     for x in range(xmin, xmax + 1):
         for y in range(ymin, ymax + 1):
             plotLineSeg(expression(x,y), (x, y))
-    plt.grid()
+    plt.grid(color = "black")
     plt.show()
     return graph
 
@@ -29,5 +34,5 @@ def plotLineSeg(slope, point):
     yCoords = (point[1] - y0, point[1] + y0)
     plt.plot(xCoords, yCoords, color = "blue")
 
-plotSlopeField(dydz, -3, 3, -5, 5)
+plotSlopeField(dydz, -5, 5, -4, 4)
 plotSlopeField(dydx, -3, 3, -5, 5)
