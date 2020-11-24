@@ -1,8 +1,16 @@
-import math
+#Authors: Nick Grisanti, Eric Corona
+
 import numpy as np
+import sympy as sp
 import matplotlib.pyplot as plt
 
-# Expressions for testing plotSlopeField
+x, y = sp.symbols(('x', 'y'))
+
+############################################################
+################     BACKEND FUNCTIONS     #################
+############################################################
+
+# Sample slope field expressions for testing plotSlopeField
 dydx = lambda x, y: x*y - y + 2*x
 dydz = lambda z, y: z**3 - y**2 -y*z
 
@@ -34,5 +42,55 @@ def plotLineSeg(slope, point):
     yCoords = (point[1] - y0, point[1] + y0)
     plt.plot(xCoords, yCoords, color = "blue")
 
-plotSlopeField(dydz, -5, 5, -4, 4)
-plotSlopeField(dydx, -3, 3, -5, 5)
+############################################################
+###############     INTERFACE FUNCTIONS     ################
+############################################################
+
+# Main function for interface
+def main():
+    while True:
+        print("Welcome to Slope Field Visualizer!")
+        field = getField()
+        xRange = getXRange()
+        yRange = getYRange()
+        plotSlopeField(field, xRange[0], xRange[1], yRange[0], yRange[1])
+
+# Helper function for main
+# Returns two-parameter lambda expression
+def getField():
+    while True:
+        userInput = str(input("Enter a slope field to graph: dy/dx = "))
+        try: 
+            field = eval("lambda x, y:" + userInput)
+            return field
+        except (SyntaxError, NameError, TypeError, ZeroDivisionError):
+            print("Invalid slope field. Try again.")
+            getField()
+
+# Helper function for main
+# Returns 2-tuple of user-provided inputs
+def getXRange():
+    userInput = str(input("Enter an interval for x: (min, max) = "))
+    try: 
+        xRange = eval(userInput)
+        xRange[0]
+        xRange[1]
+        return xRange
+    except (SyntaxError, NameError, TypeError, ZeroDivisionError):
+        print("Invalid x-interval. Try again.")
+        getField()
+        
+# Helper function for main
+# Returns 2-tuple of user-provided inputs
+def getYRange():
+    userInput = str(input("Enter an interval for y: (min, max) = "))
+    try: 
+        yRange = eval(userInput)
+        yRange[0]
+        yRange[1]
+        return yRange
+    except (SyntaxError, NameError, TypeError, ZeroDivisionError):
+        print("Invalid y-interval. Try again.")
+        getField()
+
+main()
